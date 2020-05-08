@@ -27,8 +27,8 @@ func (c *Client) GetCoffees() ([]Coffee, error) {
 	return coffees, nil
 }
 
-// getCoffeeIngredients - Returns list of coffee ingredients (no auth required)
-func (c *Client) getCoffeeIngredients(coffeeID string) ([]Ingredient, error) {
+// GetCoffeeIngredients - Returns list of coffee ingredients (no auth required)
+func (c *Client) GetCoffeeIngredients(coffeeID string) ([]Ingredient, error) {
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/coffees/%s/ingredients", c.HostURL, coffeeID), nil)
 	if err != nil {
 		return nil, err
