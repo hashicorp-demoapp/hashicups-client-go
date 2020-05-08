@@ -10,7 +10,7 @@ import (
 )
 
 // HostURL - Default Hashicups URL
-const HostURL string = "http://localhost:9090"
+const HostURL string = "http://localhost:19090"
 
 // Client -
 type Client struct {
