@@ -61,7 +61,7 @@ func (c *Client) CreateOrder(orderItems []OrderItem) (*Order, error) {
 //
 // For example:
 // By default, the 'Vaulatte' ingredients are 40ml of Espresso and 300ml Semi Skimmed Milk.
-// A custom order is when the Vaulatte coffee customised to get 50ml of Espresso instead.
+// A custom order is when the Vaulatte is customised to get 50ml of Espresso instead.
 //
 // The order at the end will have a new custom coffee type. The coffee will be a new version of the
 // Vaulatte coffee with 50ml of Espresso and 300ml Semi Skimmed Milk.
@@ -84,6 +84,12 @@ func (c *Client) CreateCustomOrder(orderItems []OrderItem) (*Order, error) {
 		// Update order with custom coffee
 		for _, coffee := range coffees {
 			if coffee.ID == order.Coffee.ID {
+				if order.Coffee.Name == "" {
+					return nil, fmt.Errorf("Coffee %d must have a name", order.Coffee.ID)
+				}
+				if order.Coffee.Name == coffee.Name {
+					return nil, fmt.Errorf("Coffee %s must have a different name from the original coffee", order.Coffee.Name)
+				}
 				coffee.Name = order.Coffee.Name
 				newCoffe, err := c.CreateCoffee(coffee)
 				if err != nil {
@@ -95,10 +101,11 @@ func (c *Client) CreateCustomOrder(orderItems []OrderItem) (*Order, error) {
 			}
 		}
 
-		// Update custom coffee with ingredients
+		// Add ingredients to the custom coffee
 		for _, ingredient := range realIngredients {
 			for _, customIngredient := range customIngredients {
 				if ingredient.ID == customIngredient.ID {
+					// Update ingredient quantity according to customisation
 					ingredient.Quantity = customIngredient.Quantity
 					continue
 				}
