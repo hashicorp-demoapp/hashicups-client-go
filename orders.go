@@ -57,6 +57,14 @@ func (c *Client) CreateOrder(orderItems []OrderItem) (*Order, error) {
 }
 
 // CreateCustomOrder - Create new custom order
+// A custom order is when a coffee ingredient quantity is different from what is pre-defined.
+//
+// For example:
+// By default, the 'Vaulatte' ingredients are 40ml of Espresso and 300ml Semi Skimmed Milk.
+// A custom order is when the Vaulatte coffee customised to get 50ml of Espresso instead.
+//
+// The order at the end will have a new custom coffee type. The coffee will be a new version of the
+// Vaulatte coffee with 50ml of Espresso and 300ml Semi Skimmed Milk.
 func (c *Client) CreateCustomOrder(orderItems []OrderItem) (*Order, error) {
 	coffees, err := c.GetCoffees()
 	if err != nil {
