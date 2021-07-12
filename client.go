@@ -1,11 +1,9 @@
 package hashicups
 
 import (
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"strings"
 	"time"
 )
 
@@ -46,25 +44,12 @@ func NewClient(host, username, password *string) (*Client, error) {
 
 	if (username != nil) && (password != nil) {
 		// form request body
-		rb, err := json.Marshal(AuthStruct{
+		auth := AuthStruct{
 			Username: *username,
 			Password: *password,
-		})
-		if err != nil {
-			return nil, err
 		}
 
-		// authenticate
-		req, err := http.NewRequest("POST", fmt.Sprintf("%s/signin", c.HostURL), strings.NewReader(string(rb)))
-		if err != nil {
-			return nil, err
-		}
-
-		body, err := c.doRequest(req)
-
-		// parse response body
-		ar := AuthResponse{}
-		err = json.Unmarshal(body, &ar)
+		ar, err := c.SignIn(auth)
 		if err != nil {
 			return nil, err
 		}
