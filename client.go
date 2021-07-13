@@ -1,11 +1,9 @@
 package hashicups
 
 import (
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"strings"
 	"time"
 )
 
@@ -17,6 +15,7 @@ type Client struct {
 	HostURL    string
 	HTTPClient *http.Client
 	Token      string
+	Auth       AuthStruct
 }
 
 // AuthStruct -
@@ -38,39 +37,22 @@ func NewClient(host, username, password *string) (*Client, error) {
 		HTTPClient: &http.Client{Timeout: 10 * time.Second},
 		// Default Hashicups URL
 		HostURL: HostURL,
+		Auth: AuthStruct{
+			Username: *username,
+			Password: *password,
+		},
 	}
 
 	if host != nil {
 		c.HostURL = *host
 	}
 
-	if (username != nil) && (password != nil) {
-		// form request body
-		rb, err := json.Marshal(AuthStruct{
-			Username: *username,
-			Password: *password,
-		})
-		if err != nil {
-			return nil, err
-		}
-
-		// authenticate
-		req, err := http.NewRequest("POST", fmt.Sprintf("%s/signin", c.HostURL), strings.NewReader(string(rb)))
-		if err != nil {
-			return nil, err
-		}
-
-		body, err := c.doRequest(req)
-
-		// parse response body
-		ar := AuthResponse{}
-		err = json.Unmarshal(body, &ar)
-		if err != nil {
-			return nil, err
-		}
-
-		c.Token = ar.Token
+	ar, err := c.SignIn()
+	if err != nil {
+		return nil, err
 	}
+
+	c.Token = ar.Token
 
 	return &c, nil
 }
