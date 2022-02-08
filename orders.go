@@ -9,13 +9,13 @@ import (
 )
 
 // GetOrder - Returns a specifc order
-func (c *Client) GetOrder(orderID string) (*Order, error) {
+func (c *Client) GetOrder(orderID string, authToken *string) (*Order, error) {
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/orders/%s", c.HostURL, orderID), nil)
 	if err != nil {
 		return nil, err
 	}
 
-	body, err := c.doRequest(req)
+	body, err := c.doRequest(req, authToken)
 	if err != nil {
 		return nil, err
 	}
@@ -30,7 +30,7 @@ func (c *Client) GetOrder(orderID string) (*Order, error) {
 }
 
 // CreateOrder - Create new order
-func (c *Client) CreateOrder(orderItems []OrderItem) (*Order, error) {
+func (c *Client) CreateOrder(orderItems []OrderItem, authToken *string) (*Order, error) {
 	rb, err := json.Marshal(orderItems)
 	if err != nil {
 		return nil, err
@@ -41,7 +41,7 @@ func (c *Client) CreateOrder(orderItems []OrderItem) (*Order, error) {
 		return nil, err
 	}
 
-	body, err := c.doRequest(req)
+	body, err := c.doRequest(req, authToken)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (c *Client) CreateOrder(orderItems []OrderItem) (*Order, error) {
 }
 
 // UpdateOrder - Updates an order
-func (c *Client) UpdateOrder(orderID string, orderItems []OrderItem) (*Order, error) {
+func (c *Client) UpdateOrder(orderID string, orderItems []OrderItem, authToken *string) (*Order, error) {
 	rb, err := json.Marshal(orderItems)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (c *Client) UpdateOrder(orderID string, orderItems []OrderItem) (*Order, er
 		return nil, err
 	}
 
-	body, err := c.doRequest(req)
+	body, err := c.doRequest(req, authToken)
 	if err != nil {
 		return nil, err
 	}
@@ -82,13 +82,13 @@ func (c *Client) UpdateOrder(orderID string, orderItems []OrderItem) (*Order, er
 }
 
 // DeleteOrder - Deletes an order
-func (c *Client) DeleteOrder(orderID string) error {
+func (c *Client) DeleteOrder(orderID string, authToken *string) error {
 	req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/orders/%s", c.HostURL, orderID), nil)
 	if err != nil {
 		return err
 	}
 
-	body, err := c.doRequest(req)
+	body, err := c.doRequest(req, authToken)
 	if err != nil {
 		return err
 	}
