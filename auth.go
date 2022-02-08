@@ -23,7 +23,7 @@ func (c *Client) SignIn() (*AuthResponse, error) {
 		return nil, err
 	}
 
-	body, err := c.doRequest(req)
+	body, err := c.doRequest(req, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -38,13 +38,13 @@ func (c *Client) SignIn() (*AuthResponse, error) {
 }
 
 // SignOut - Revoke the token for a user
-func (c *Client) SignOut() error {
+func (c *Client) SignOut(authToken *string) error {
 	req, err := http.NewRequest("POST", fmt.Sprintf("%s/signout", c.HostURL), strings.NewReader(string("")))
 	if err != nil {
 		return err
 	}
 
-	body, err := c.doRequest(req)
+	body, err := c.doRequest(req, authToken)
 	if err != nil {
 		return err
 	}

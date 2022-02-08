@@ -14,7 +14,7 @@ func (c *Client) GetCoffees() ([]Coffee, error) {
 		return nil, err
 	}
 
-	body, err := c.doRequest(req)
+	body, err := c.doRequest(req, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -35,7 +35,7 @@ func (c *Client) GetCoffeeIngredients(coffeeID string) ([]Ingredient, error) {
 		return nil, err
 	}
 
-	body, err := c.doRequest(req)
+	body, err := c.doRequest(req, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +50,7 @@ func (c *Client) GetCoffeeIngredients(coffeeID string) ([]Ingredient, error) {
 }
 
 // CreateCoffee - Create new coffee
-func (c *Client) CreateCoffee(coffee Coffee) (*Coffee, error) {
+func (c *Client) CreateCoffee(coffee Coffee, authToken *string) (*Coffee, error) {
 	rb, err := json.Marshal(coffee)
 	if err != nil {
 		return nil, err
@@ -61,7 +61,7 @@ func (c *Client) CreateCoffee(coffee Coffee) (*Coffee, error) {
 		return nil, err
 	}
 
-	body, err := c.doRequest(req)
+	body, err := c.doRequest(req, authToken)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func (c *Client) CreateCoffee(coffee Coffee) (*Coffee, error) {
 }
 
 // CreateCoffeeIngredient - Create new coffee ingredient
-func (c *Client) CreateCoffeeIngredient(coffee Coffee, ingredient Ingredient) (*Ingredient, error) {
+func (c *Client) CreateCoffeeIngredient(coffee Coffee, ingredient Ingredient, authToken *string) (*Ingredient, error) {
 	reqBody := struct {
 		CoffeeID     int    `json:"coffee_id"`
 		IngredientID int    `json:"ingredient_id"`
@@ -98,7 +98,7 @@ func (c *Client) CreateCoffeeIngredient(coffee Coffee, ingredient Ingredient) (*
 		return nil, err
 	}
 
-	body, err := c.doRequest(req)
+	body, err := c.doRequest(req, authToken)
 	if err != nil {
 		return nil, err
 	}
