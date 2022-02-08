@@ -67,7 +67,7 @@ func (c *Client) doRequest(req *http.Request, authToken *string) ([]byte, error)
 	token := c.Token
 
 	if authToken != nil {
-		token = authToken
+		token = *authToken
 	}
 
 	req.Header.Set("Authorization", token)
