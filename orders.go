@@ -8,6 +8,27 @@ import (
 	"strings"
 )
 
+// GetAllOrders - Returns all user's order
+func (c *Client) GetAllOrders(authToken *string) (*[]Order, error) {
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/orders", c.HostURL), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	body, err := c.doRequest(req, authToken)
+	if err != nil {
+		return nil, err
+	}
+
+	orders := []Order{}
+	err = json.Unmarshal(body, &orders)
+	if err != nil {
+		return nil, err
+	}
+
+	return &orders, nil
+}
+
 // GetOrder - Returns a specifc order
 func (c *Client) GetOrder(orderID string, authToken *string) (*Order, error) {
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/orders/%s", c.HostURL, orderID), nil)
