@@ -25,7 +25,7 @@ type Coffee struct {
 
 // Ingredient -
 type Ingredient struct {
-	ID       int    `json:"ingredient_id"`
+	ID       int    `json:"id"`
 	Name     string `json:"name"`
 	Quantity int    `json:"quantity"`
 	Unit     string `json:"unit"`
