@@ -19,6 +19,7 @@ type Coffee struct {
 	Teaser      string             `json:"teaser"`
 	Collection  string             `json:"collection"`
 	Origin      string             `json:"origin"`
+	Color       string             `json:"color"`
 	Description string             `json:"description"`
 	Price       float64            `json:"price"`
 	Image       string             `json:"image"`
