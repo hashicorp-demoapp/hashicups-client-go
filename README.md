@@ -1,6 +1,6 @@
 # Hashicups Client (Go)
 
-A Go client library is written to provide transient connection between [Terraform-provider-hashicups](https://github.com/hashicorp/terraform-provider-hashicups) and [product api application](https://github.com/hashicorp-demoapp/product-api-go). This library itself does not required to be compiled, rather it is being utilized by Hashicups provider as a dependency. 
+A Go client package provides a transient connection between [terraform-provider-hashicups](https://github.com/hashicorp/terraform-provider-hashicups) and [product-api](https://github.com/hashicorp-demoapp/product-api-go). You do not need to compile this package, rather the HashiCups provider uses it as a dependency. 
 
 
 <div align="center">
