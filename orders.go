@@ -29,7 +29,7 @@ func (c *Client) GetAllOrders(authToken *string) (*[]Order, error) {
 	return &orders, nil
 }
 
-// GetOrder - Returns a specifc order
+// GetOrder - Returns a specific order
 func (c *Client) GetOrder(orderID string, authToken *string) (*Order, error) {
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/orders/%s", c.HostURL, orderID), nil)
 	if err != nil {
