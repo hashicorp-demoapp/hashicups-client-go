@@ -26,8 +26,8 @@ type AuthStruct struct {
 
 // AuthResponse -
 type AuthResponse struct {
-	UserID   int    `json:"user_id`
-	Username string `json:"username`
+	UserID   int    `json:"user_id"`
+	Username string `json:"username"`
 	Token    string `json:"token"`
 }
 
